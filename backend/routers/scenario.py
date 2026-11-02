@@ -45,6 +45,12 @@ def create_scenario(
   db.commit()
 
   # TODO: add background tasks, generate scenario
+  background_tasks.add_task(
+    generate_scenario_task,
+    job_id = job_id,
+    theme = request.theme,
+    session_id = session_id
+  )
 
   return job
 
@@ -54,3 +60,28 @@ def generate_scenario_task(job_id: str, theme:str, session_id: str):
 
     try:
         job = db.query(ScenarioJob).filter(ScenarioJob.job_id == job_id).first()
+
+        if not job:
+            return
+
+        try:
+            job.status = "processing"
+            db.commit()
+
+            scenario = {} # TODO: generate scenario
+
+            job.scenario_id = 1  # TODO: update scenario
+            job.status = "completed"
+            job.completed_at = datetime.now()
+            db.commit()
+        
+        except Exception as e:
+            
+            job.status = "failed"
+            job.completed_at = datetime.now()
+            job.error=str(e)
+            db.commit()
+    finally:
+        db.close()
+
+
