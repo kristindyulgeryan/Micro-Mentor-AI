@@ -93,3 +93,6 @@ def get_complete_scenario(scenario_id: int, db:Session = Depends(get_db)):
     
     # TODO pars scenario
     return scenario
+
+def build_complete_scenario_tree(db: Session, scenario: Scenario) -> CompleteScenarioResponse:
+    pass
