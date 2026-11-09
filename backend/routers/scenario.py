@@ -5,13 +5,13 @@ from fastapi import APIRouter, Depends, HTTPException, Cookie,Response,Backgroun
 from sqlalchemy.engine import create
 from sqlalchemy.orm import Session
 
-from backend.db.database import get_db, SessionLocal
-from backend.models.scenario import Scenario, ScenarioNode
-from backend.models.job import ScenarioJob
-from backend.schemas.scenario import (
+from db.database import get_db, SessionLocal
+from models.scenario import Scenario, ScenarioNode
+from models.job import ScenarioJob
+from schemas.scenario import (
     CompleteScenarioResponse, CompleteScenarioNodeResponse, CreateScenarioRequest
 )
-from backend.schemas.job import ScenarioJobResponse
+from schemas.job import ScenarioJobResponse
 
 router = APIRouter(
     prefix="/scenarios",
@@ -91,8 +91,8 @@ def get_complete_scenario(scenario_id: int, db:Session = Depends(get_db)):
     if not scenario:
         raise HTTPException(status_code=404,detail="Scenario not found")
     
-    # TODO pars scenario
-    return scenario
+    complete_scenario=build_complete_scenario_tree(db, scenario)
+    return complete_scenario
 
 def build_complete_scenario_tree(db: Session, scenario: Scenario) -> CompleteScenarioResponse:
     pass
