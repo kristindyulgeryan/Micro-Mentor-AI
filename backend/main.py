@@ -1,7 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+
 from core.config import settings
 from routers import scenario, job
+from db.database import create_tables
+
+create_tables()
 
 
 app = FastAPI(

@@ -8,7 +8,7 @@ class ScenarioJobBase(BaseModel):
 
 
 class ScenarioJobResponse(BaseModel):
-    job_id: int
+    job_id: str
     status: str
     created_at: datetime
     story_id: Optional[int] = None

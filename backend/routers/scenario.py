@@ -32,6 +32,7 @@ def create_scenario(
     db: Session=Depends(get_db)
 ):
   response.set_cookie(key="session_id", value=session_id, httponly=True)
+  
   job_id = str(uuid.uuid4())
 
   job = ScenarioJob(
